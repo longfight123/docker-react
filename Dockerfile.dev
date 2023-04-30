@@ -1,0 +1,14 @@
+FROM node:16-alpine
+
+# for all subsequent commands, the node user will run the commands instead of root
+USER node
+
+RUN mkdir -p /home/node/app
+WORKDIR /home/node/app
+
+# set ownership of files copied to container to the node user
+COPY --chown=node:node package.json .
+RUN npm install
+COPY --chown=node:node . .
+
+CMD ["npm", "run", "start"]
